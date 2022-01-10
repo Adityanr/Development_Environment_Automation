@@ -2,7 +2,7 @@
 & 'C:\Installers\AutoStore Interface Emulator_v1.1.9.exe' /NORESTART /VERYSILENT
 
 ## Autostore http interface installation
-Enable-WindowsOptionalFeature -Online -FeatureName "IIS-ManagementScriptingTools"
+Enable-WindowsOptionalFeature -Online -FeatureName IIS-ManagementScriptingTools
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-WebServer
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-ApplicationDevelopment
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-ASP -All
