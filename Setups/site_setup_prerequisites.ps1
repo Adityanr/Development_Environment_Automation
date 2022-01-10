@@ -20,18 +20,3 @@ Enable-WindowsOptionalFeature -Online -FeatureName IIS-CGI -All
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIExtensions -All
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIFilter -All
 Import-Module webadministration
-
-## Alter SQL Authentication mode
-$domain = $env:USERDOMAIN
-$sql = [Microsoft.SqlServer.Management.Smo.Server]::new("$domain")
-$sql.Settings.LoginMode = [Microsoft.SqlServer.Management.SMO.ServerLoginMode]::Mixed
-$sql.Alter()
-
-$query = @'
-ALTER LOGIN [sa] WITH PASSWORD='Qwe123!@#', CHECK_POLICY=OFF
-GO
-ALTER LOGIN [sa] ENABLE
-GO
-'@
-Invoke-Sqlcmd -Query $query -ServerInstance "$domain"
-Restart-Service -Name MSSQLSERVER
