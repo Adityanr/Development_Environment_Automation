@@ -3,3 +3,14 @@ Invoke-WebRequest -Uri "https://central.github.com/deployments/desktop/desktop/l
 
 ## Install Github desktop
 C:\Installers\github_desktop_setup.exe -s
+
+Start-Sleep -s 30
+
+$variableNameToAdd = 'PATH'
+$path_env_value = $env:PATH
+$local_app_data = $env:LOCALAPPDATA
+$git_path = ""
+$variableValueToAdd = "${path_env_value};${local_app_data}\GitHubDesktop\app-2.9.6\resources\app\git\mingw64\bin"
+[System.Environment]::SetEnvironmentVariable($variableNameToAdd, $variableValueToAdd, [System.EnvironmentVariableTarget]::Machine)
+[System.Environment]::SetEnvironmentVariable($variableNameToAdd, $variableValueToAdd, [System.EnvironmentVariableTarget]::Process)
+[System.Environment]::SetEnvironmentVariable($variableNameToAdd, $variableValueToAdd, [System.EnvironmentVariableTarget]::User)

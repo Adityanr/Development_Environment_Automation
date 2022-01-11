@@ -1,4 +1,11 @@
+## Parameters
+param(
+    # eManager Folder
+    [string]$EManagerFolder
+)
+
 ## Restore NuGet packages
+cd $EManagerFolder
 dotnet restore .\AutoStoreManagementSystem.sln
 
 ## Build project

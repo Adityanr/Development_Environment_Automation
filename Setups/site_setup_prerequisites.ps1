@@ -1,3 +1,11 @@
+## Parameters
+param(
+    # Github bearer api token
+    [string]$OAuthToken,
+    # eManager Repo root folder
+    [string]$RootFolder
+)
+
 ## Setting up visual studio components for site
 C:\Installers\vs_enterprise.exe --wait --noUpdateInstaller --add Microsoft.VisualStudio.Workload.NetWeb --includeRecommended --includeOptional --quiet --norestart
 C:\Installers\vs_enterprise.exe --wait --noUpdateInstaller --add Microsoft.VisualStudio.Workload.ManagedDesktop --includeRecommended --includeOptional --quiet --norestart
@@ -20,3 +28,6 @@ Enable-WindowsOptionalFeature -Online -FeatureName IIS-CGI -All
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIExtensions -All
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIFilter -All
 Import-Module webadministration
+
+## Clone repository to folder
+git clone "https://${OAuthToken}@github.com/ewms/AutoStoreManagementSystem.git" "${RootFolder}\eManager"

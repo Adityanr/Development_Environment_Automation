@@ -14,3 +14,5 @@ C:\Installers\SQLSERVERDEV_2019\SETUP.EXE /Q /IACCEPTSQLSERVERLICENSETERMS /IACC
 ## Download and install SSMS
 Invoke-WebRequest -Uri "https://aka.ms/ssmsfullsetup" -UseBasicParsing -OutFile "C:\Installers\ssms_setup.exe"
 C:\Installers\ssms_setup.exe /install /quiet /norestart
+
+Start-Sleep -s 30

@@ -18,3 +18,5 @@ If ($DisableLogging) { . $moduleAppDeployToolkitMain -DisableLogging } Else { . 
 ## Install Source tree
 $MsiPath = "C:\Installers\SourceTree\Files\SourcetreeEnterpriseSetup.msi"
 Execute-MSI -Action Install -Path "$MsiPath" -AddParameters "ACCEPTEULA=1"
+
+Start-Sleep -s 30

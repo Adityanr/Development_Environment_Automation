@@ -6,3 +6,5 @@ choco feature enable -n=allowGlobalConfirmation
 
 ## Install git
 choco install git
+
+Start-Sleep -s 30
