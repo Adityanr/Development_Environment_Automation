@@ -86,7 +86,17 @@ Restart-Service -Name MSSQLSERVER
 ## Copy backup to MSSQL backup path
 Copy-Item $db_backup_path -Destination $mssql_db_backup_path
 
+## Check if database already exists
+$query = @"
+if exists(select * from sys.databases where name = '$database_name')
+select 1
+else 
+select 0
+"@
+$result = Invoke-Sqlcmd -Query $query -ServerInstance "$domain" -Querytimeout 0 
+
 ## Restore database from backup
+if ($result[0] -eq 0) {
 $query = @"
 RESTORE FILELISTONLY FROM DISK = '$mssql_db_backup_path'
 "@
@@ -98,4 +108,5 @@ $query = @"
 RESTORE DATABASE [$database_name] FROM DISK = '$mssql_db_backup_path' WITH MOVE '$data_file_old' TO '$new_data_file_path',
 MOVE '$log_file_old' TO '$new_log_file_path', REPLACE
 "@
-Invoke-Sqlcmd -Query $query -ServerInstance "$domain" -Querytimeout 0 
+Invoke-Sqlcmd -Query $query -ServerInstance "$domain" -Querytimeout 0
+}

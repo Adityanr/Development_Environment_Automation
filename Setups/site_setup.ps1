@@ -5,7 +5,9 @@ param(
     # App pool name
     [string]$AppPoolName,
     # WebSite name
-    [string]$WebsiteName
+    [string]$WebsiteName,
+    # Port number
+    [int]$PortNumber
 )
 
 ## Setup app pool if it doesnt already exist
@@ -14,8 +16,8 @@ Set-Location IIS:\\AppPools\\
 $AppPool = Get-Item .\\$AppPoolName
 $AppPoolID = $AppPool.processmodel.userName
 
-## Website setup at port 80
+## Website setup
 if (!(Test-Path $WebsiteFolder)){throw "No website folder found"}
 if (Get-Website -Name 'Default Web Site') {Remove-Website -Name 'Default Web Site'}
-$Website = New-Website -Name $WebsiteName -Port 80 -PhysicalPath $WebsiteFolder -ApplicationPool $AppPool.Name -Force
+$Website = New-Website -Name $WebsiteName -Port $PortNumber -PhysicalPath $WebsiteFolder -ApplicationPool $AppPool.Name -Force
 Start-Website -Name $WebsiteName

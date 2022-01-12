@@ -7,9 +7,8 @@ param(
 )
 
 ## Setting up visual studio components for site
-C:\Installers\vs_enterprise.exe --wait --noUpdateInstaller --add Microsoft.VisualStudio.Workload.NetWeb --includeRecommended --includeOptional --quiet --norestart
-C:\Installers\vs_enterprise.exe --wait --noUpdateInstaller --add Microsoft.VisualStudio.Workload.ManagedDesktop --includeRecommended --includeOptional --quiet --norestart
-Start-Sleep -s 900
+Start-Process "C:\Installers\vs_enterprise.exe" -ArgumentList @('--wait', '--noUpdateInstaller', '--add', 'Microsoft.VisualStudio.Workload.NetWeb', '--includeRecommended', '--includeOptional', '--passive', '--norestart') -NoNewWindow -Wait
+Start-Process "C:\Installers\vs_enterprise.exe" -ArgumentList @('--wait', '--noUpdateInstaller', '--add', 'Microsoft.VisualStudio.Workload.ManagedDesktop', '--includeRecommended', '--includeOptional', '--passive', '--norestart') -NoNewWindow -Wait
 if (Test-Path -Path 'HKLM:\\SOFTWARE\\WOW6432Node\\Microsoft\\VisualStudio\\Setup\\Reboot') {
     Get-item -Path 'HKLM:\\SOFTWARE\\WOW6432Node\\Microsoft\\VisualStudio\\Setup\\Reboot' | Remove-Item -Force -Verbose
 }

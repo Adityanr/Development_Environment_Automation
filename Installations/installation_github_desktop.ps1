@@ -2,7 +2,7 @@
 Invoke-WebRequest -Uri "https://central.github.com/deployments/desktop/desktop/latest/win32" -UseBasicParsing -OutFile "C:\Installers\github_desktop_setup.exe"
 
 ## Install Github desktop
-C:\Installers\github_desktop_setup.exe -s
+Start-Process "C:\Installers\github_desktop_setup.exe" -ArgumentList @('-s') -NoNewWindow -Wait
 
 Start-Sleep -s 30
 
