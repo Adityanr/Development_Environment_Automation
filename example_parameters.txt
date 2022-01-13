@@ -11,3 +11,4 @@ Enter the sysadmin SQL server password: ELJan2022#
 Enter the hibernate config file source folder path: C:\config
 Enter the WMS app pool name: WMS
 Enter the WMS website name: WMS
+Enter the output folder for powershell script logs: C:\Logs

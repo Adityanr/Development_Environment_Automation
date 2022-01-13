@@ -1,3 +1,7 @@
+$ErrorActionPreference="SilentlyContinue"
+Stop-Transcript | out-null
+$ErrorActionPreference = "Continue"
+
 ## Parameters
 Write-Host "Enter a few inputs before proceeding."
 Write-Host "-----------------------------------------"
@@ -22,10 +26,14 @@ if ($UnsecureSAPassword -ne $UnsecureConfirmSAPassword) {
 $config_file_source = Read-Host "Enter the hibernate config file source folder path"
 $wmsAppPoolName = Read-Host "Enter the WMS app pool name"
 $wmsWebsiteName = Read-Host "Enter the WMS website name"
+$LogsOutputPath = Read-Host "Enter the output folder for powershell script logs"
+$date_and_time = Get-Date -Format MM-dd-yyyy-HH-mm
 $defaultWebSitePoolName = "DefaultAppPool"
 $defaultWebSiteName = "Default Web Site"
 $scriptsPath = (Get-Location).Path
 Write-Host "-----------------------------------------"
+
+Start-Transcript -path "${LogsOutputPath}\logs_${date_and_time}.txt" -append
 
 ## Validations
 $installed_visual_studio = $false
@@ -227,6 +235,8 @@ Write-Host "--------------------------------------------------SETUPS DONE-------
 Write-Host "------------------------------------------------------------------------------------------------------------"
 
 ## End Region setups -------------------------------------------------------------------------------------------------
+
+Stop-Transcript
 
 write-host "Press any key to continue..."
 [void][System.Console]::ReadKey($true)
