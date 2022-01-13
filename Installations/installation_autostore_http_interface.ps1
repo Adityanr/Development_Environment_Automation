@@ -3,6 +3,8 @@ param(
     [string]$AutostoreHttpInterfaceExeLocation
 )
 
+Start-Sleep -s 30
+
 ## Autostore http interface installation
 Copy-Item $AutostoreHttpInterfaceExeLocation -Destination "C:\Installers\ASInterfaceHttp_v1.5.15.exe"
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-ManagementScriptingTools

@@ -1,5 +1,7 @@
 ## Download Github desktop
-Invoke-WebRequest -Uri "https://central.github.com/deployments/desktop/desktop/latest/win32" -UseBasicParsing -OutFile "C:\Installers\github_desktop_setup.exe"
+if (!(Test-Path -Path "C:\Installers\github_desktop_setup.exe")) {
+    Invoke-WebRequest -Uri "https://central.github.com/deployments/desktop/desktop/latest/win32" -UseBasicParsing -OutFile "C:\Installers\github_desktop_setup.exe"
+}
 
 ## Install Github desktop
 Start-Process "C:\Installers\github_desktop_setup.exe" -ArgumentList @('-s') -NoNewWindow -Wait

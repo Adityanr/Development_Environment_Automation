@@ -28,5 +28,13 @@ Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIExtensions -All
 Enable-WindowsOptionalFeature -Online -FeatureName IIS-ISAPIFilter -All
 Import-Module webadministration
 
+## Update path variable
+$variableNameToAdd = 'PATH'
+$path_env_value = $env:PATH
+$variableValueToAdd = "${path_env_value};C:\Program Files\Microsoft Visual Studio\2022\Enterprise\dotnet\runtime"
+[System.Environment]::SetEnvironmentVariable($variableNameToAdd, $variableValueToAdd, [System.EnvironmentVariableTarget]::Machine)
+[System.Environment]::SetEnvironmentVariable($variableNameToAdd, $variableValueToAdd, [System.EnvironmentVariableTarget]::Process)
+[System.Environment]::SetEnvironmentVariable($variableNameToAdd, $variableValueToAdd, [System.EnvironmentVariableTarget]::User)
+
 ## Clone repository to folder
 git clone "https://${OAuthToken}@github.com/ewms/AutoStoreManagementSystem.git" "${RootFolder}\eManager"
