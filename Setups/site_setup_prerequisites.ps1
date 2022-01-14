@@ -37,4 +37,4 @@ $variableValueToAdd = "${path_env_value};C:\Program Files\Microsoft Visual Studi
 [System.Environment]::SetEnvironmentVariable($variableNameToAdd, $variableValueToAdd, [System.EnvironmentVariableTarget]::User)
 
 ## Clone repository to folder
-git clone "https://${OAuthToken}@github.com/ewms/AutoStoreManagementSystem.git" "${RootFolder}\eManager"
+## git clone "https://${OAuthToken}@github.com/ewms/AutoStoreManagementSystem.git" "${RootFolder}\eManager"

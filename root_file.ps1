@@ -33,6 +33,21 @@ $defaultWebSiteName = "Default Web Site"
 $scriptsPath = (Get-Location).Path
 Write-Host "-----------------------------------------"
 
+$title    = 'Confirm'
+$question = 'Are you sure you want to proceed?'
+
+$choices = New-Object Collections.ObjectModel.Collection[Management.Automation.Host.ChoiceDescription]
+$choices.Add((New-Object Management.Automation.Host.ChoiceDescription -ArgumentList '&Yes'))
+$choices.Add((New-Object Management.Automation.Host.ChoiceDescription -ArgumentList '&No'))
+
+$decision = $Host.UI.PromptForChoice($title, $question, $choices, 1)
+if ($decision -eq 0) {
+    Write-Host 'Starting....'
+} else {
+    Write-Host 'cancelled'
+    exit 0
+}
+
 Start-Transcript -path "${LogsOutputPath}\logs_${date_and_time}.txt" -append
 
 ## Validations
