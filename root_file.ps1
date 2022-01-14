@@ -52,6 +52,7 @@ Start-Transcript -path "${LogsOutputPath}\logs_${date_and_time}.txt" -append
 
 ## Validations
 $installed_visual_studio = $false
+$installed_visual_studio_build_tools = $false
 $installed_git = $false
 $installed_source_tree = $false
 $installed_iis = $false
@@ -66,6 +67,7 @@ foreach($i in $SoftList)
     switch($x.DisplayName) {
         "Microsoft Visual Studio Installer" {
             $installed_visual_studio = $true
+            $installed_visual_studio_build_tools = $true
             break;
         }             
         "Git" {
@@ -96,6 +98,10 @@ if (!(Test-Path -Path "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\
     $installed_visual_studio = $false
 }
 
+if (!(Test-Path -Path "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\MSbuild.exe")) {
+    $installed_visual_studio_build_tools = $false
+}
+
 Write-Host "------------------------------------------------------------------------------------------------------------"
 Write-Host "----------------------------------------------INSTALLATIONS STARTED----------------------------------------"
 Write-Host "------------------------------------------------------------------------------------------------------------"
@@ -115,6 +121,15 @@ Write-Host "---------------------------------------------"
 Write-Host "Visual Studio Enterprise installation started"
     .\Installations\installation_visual_studio.ps1
 Write-Host "Visual Studio Enterprise installation done"
+Write-Host "---------------------------------------------"
+}
+
+## Call Visual Studio Build tools Installation scripts
+if (!$installed_visual_studio_build_tools) {
+Write-Host "---------------------------------------------"
+Write-Host "Visual Studio Build tools installation started"
+    .\Installations\installation_visual_studio_build_tools.ps1
+Write-Host "Visual Studio Build tools installation done"
 Write-Host "---------------------------------------------"
 }
 

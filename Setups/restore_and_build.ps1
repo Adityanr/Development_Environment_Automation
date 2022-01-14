@@ -6,7 +6,7 @@ param(
 
 ## Restore NuGet packages
 cd $EManagerFolder
-dotnet restore .\AutoStoreManagementSystem.sln
+C:\Installers\nuget.exe restore .\AutoStoreManagementSystem.sln -Verbosity quiet
 
 ## Build project
-&"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSbuild.exe" -target:Rebuild .\AutoStoreManagementSystem.sln
+&"C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\MSbuild.exe" -restore:True -verbosity:quiet -target:Rebuild .\AutoStoreManagementSystem.sln
