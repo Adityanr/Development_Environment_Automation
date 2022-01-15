@@ -4,15 +4,17 @@ param(
     [string]$OAuthToken,
     # eManager Repo root folder
     [string]$RootFolder
+    ## Installer download location
+    [string]$InstallersFolder
 )
 
 ## Setting up visual studio components for site
-Start-Process "C:\Installers\vs_enterprise.exe" -ArgumentList @('--wait', '--noUpdateInstaller', '--add', 'Microsoft.VisualStudio.Workload.NetWeb', '--includeRecommended', '--includeOptional', '--passive', '--norestart') -NoNewWindow -Wait
-Start-Process "C:\Installers\vs_enterprise.exe" -ArgumentList @('--wait', '--noUpdateInstaller', '--add', 'Microsoft.VisualStudio.Workload.ManagedDesktop', '--includeRecommended', '--includeOptional', '--passive', '--norestart') -NoNewWindow -Wait
-Start-Process "C:\Installers\vs_BuildTools.exe" -ArgumentList @('--wait', '--noUpdateInstaller', '--add', 'Microsoft.VisualStudio.Workload.WebBuildTools', '--includeRecommended', '--includeOptional', '--passive', '--norestart') -NoNewWindow -Wait
-Start-Process "C:\Installers\vs_BuildTools.exe" -ArgumentList @('--wait', '--noUpdateInstaller', '--add', 'Microsoft.VisualStudio.Workload.NetCoreBuildTools', '--includeRecommended', '--includeOptional', '--passive', '--norestart') -NoNewWindow -Wait
-Start-Process "C:\Installers\vs_BuildTools.exe" -ArgumentList @('--wait', '--noUpdateInstaller', '--add', 'Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools', '--includeRecommended', '--includeOptional', '--passive', '--norestart') -NoNewWindow -Wait
-Start-Process "C:\Installers\vs_BuildTools.exe" -ArgumentList @('--wait', '--noUpdateInstaller', '--add', 'Microsoft.VisualStudio.Workload.MSBuildTools', '--includeRecommended', '--includeOptional', '--passive', '--norestart') -NoNewWindow -Wait
+Start-Process "${InstallersFolder}\vs_enterprise.exe" -ArgumentList @('--wait', '--noUpdateInstaller', '--add', 'Microsoft.VisualStudio.Workload.NetWeb', '--includeRecommended', '--includeOptional', '--passive', '--norestart') -NoNewWindow -Wait
+Start-Process "${InstallersFolder}\vs_enterprise.exe" -ArgumentList @('--wait', '--noUpdateInstaller', '--add', 'Microsoft.VisualStudio.Workload.ManagedDesktop', '--includeRecommended', '--includeOptional', '--passive', '--norestart') -NoNewWindow -Wait
+Start-Process "${InstallersFolder}\vs_BuildTools.exe" -ArgumentList @('--wait', '--noUpdateInstaller', '--add', 'Microsoft.VisualStudio.Workload.WebBuildTools', '--includeRecommended', '--includeOptional', '--passive', '--norestart') -NoNewWindow -Wait
+Start-Process "${InstallersFolder}\vs_BuildTools.exe" -ArgumentList @('--wait', '--noUpdateInstaller', '--add', 'Microsoft.VisualStudio.Workload.NetCoreBuildTools', '--includeRecommended', '--includeOptional', '--passive', '--norestart') -NoNewWindow -Wait
+Start-Process "${InstallersFolder}\vs_BuildTools.exe" -ArgumentList @('--wait', '--noUpdateInstaller', '--add', 'Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools', '--includeRecommended', '--includeOptional', '--passive', '--norestart') -NoNewWindow -Wait
+Start-Process "${InstallersFolder}\vs_BuildTools.exe" -ArgumentList @('--wait', '--noUpdateInstaller', '--add', 'Microsoft.VisualStudio.Workload.MSBuildTools', '--includeRecommended', '--includeOptional', '--passive', '--norestart') -NoNewWindow -Wait
 
 if (Test-Path -Path 'HKLM:\\SOFTWARE\\WOW6432Node\\Microsoft\\VisualStudio\\Setup\\Reboot') {
     Get-item -Path 'HKLM:\\SOFTWARE\\WOW6432Node\\Microsoft\\VisualStudio\\Setup\\Reboot' | Remove-Item -Force -Verbose

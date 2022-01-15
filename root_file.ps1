@@ -5,6 +5,7 @@ $ErrorActionPreference = "Continue"
 ## Parameters
 Write-Host "Enter a few inputs before proceeding."
 Write-Host "-----------------------------------------"
+$installers_path = Read-Host "Enter the path to download and store installers"
 $autostore_interface_emulator_exe_location = Read-Host "Enter the AutoStore Emulator Exe Location"
 $autostore_http_interface_exe_location = Read-Host "Enter the AutoStore HTTP Interface Exe Location"
 $github_api_token = Read-Host "Enter your github API token"
@@ -109,7 +110,7 @@ Write-Host "--------------------------------------------------------------------
 ## Pre-requisites before installation
 Write-Host "----------------------------------"
 Write-Host "Pre-Requisites before installation"
-.\Installations\pre-requisites.ps1
+.\Installations\pre-requisites.ps1 -InstallersFolder $installers_path
 Write-Host "Pre-Requisites done"
 Write-Host "----------------------------------"
 
@@ -119,7 +120,7 @@ Write-Host "----------------------------------"
 if (!$installed_visual_studio) {
 Write-Host "---------------------------------------------"
 Write-Host "Visual Studio Enterprise installation started"
-    .\Installations\installation_visual_studio.ps1
+    .\Installations\installation_visual_studio.ps1 -InstallersFolder $installers_path
 Write-Host "Visual Studio Enterprise installation done"
 Write-Host "---------------------------------------------"
 }
@@ -128,7 +129,7 @@ Write-Host "---------------------------------------------"
 if (!$installed_visual_studio_build_tools) {
 Write-Host "---------------------------------------------"
 Write-Host "Visual Studio Build tools installation started"
-    .\Installations\installation_visual_studio_build_tools.ps1
+    .\Installations\installation_visual_studio_build_tools.ps1 -InstallersFolder $installers_path
 Write-Host "Visual Studio Build tools installation done"
 Write-Host "---------------------------------------------"
 }
@@ -146,7 +147,7 @@ Write-Host "---------------------------------------------"
 if (!$installed_source_tree) {
 Write-Host "---------------------------------------------"
 Write-Host "Source tree installation started"
-    .\Installations\installation_source_tree.ps1
+    .\Installations\installation_source_tree.ps1 -InstallersFolder $installers_path
 Write-Host "Source tree installation done"
 Write-Host "---------------------------------------------"
 }
@@ -154,7 +155,7 @@ Write-Host "---------------------------------------------"
 ## Call github desktop installation
 Write-Host "---------------------------------------------"
 Write-Host "GitHub desktop installation started"
-    .\Installations\installation_github_desktop.ps1
+    .\Installations\installation_github_desktop.ps1 -InstallersFolder $installers_path
 Write-Host "GitHub desktop installation done"
 Write-Host "---------------------------------------------"
 
@@ -171,7 +172,7 @@ Write-Host "---------------------------------------------"
 if (!$installed_ssms -or !$installed_ssms) {
 Write-Host "---------------------------------------------"
 Write-Host "SQL Server and SSMS installation started"
-    .\Installations\installation_sql.ps1
+    .\Installations\installation_sql.ps1 -InstallersFolder $installers_path
 Write-Host "SQL Server and SSMS installation done"
 Write-Host "---------------------------------------------"
 }
@@ -179,7 +180,7 @@ Write-Host "---------------------------------------------"
 ## Call Autostore emulator installation
 Write-Host "---------------------------------------------"
 Write-Host "Autostore emulator installation started"
-.\Installations\installation_autostore_emulator.ps1 -AutostoreInterfaceEmulatorExeLocation $autostore_interface_emulator_exe_location
+.\Installations\installation_autostore_emulator.ps1 -AutostoreInterfaceEmulatorExeLocation $autostore_interface_emulator_exe_location -InstallersFolder $installers_path
 Write-Host "---------------------------------------------"
 Write-Host "Autostore emulator installation done"
 
@@ -200,7 +201,7 @@ Write-Host "--------------------------------------------------------------------
 ## Site setup pre-requisites
 Write-Host "------------------------------------"
 Write-Host "Pre-requisites before setups started"
-.\Setups\site_setup_prerequisites.ps1 -OAuthToken $github_api_token -RootFolder $eManager_root_folder
+.\Setups\site_setup_prerequisites.ps1 -OAuthToken $github_api_token -RootFolder $eManager_root_folder -InstallersFolder $installers_path
 Write-Host "Pre-requisites before setups done"
 Write-Host "------------------------------------"
 
@@ -215,7 +216,7 @@ Write-Host "---------------------------"
 Write-Host "---------------------------"
 Write-Host "Package management started"
 $eManagerFolder = "${eManager_root_folder}\eManager"
-.\Setups\package_management.ps1 -EManagerFolder $eManagerFolder
+.\Setups\package_management.ps1 -EManagerFolder $eManagerFolder -InstallersFolder $installers_path
 Write-Host "Package management done"
 Write-Host "---------------------------"
 
@@ -223,7 +224,7 @@ Write-Host "---------------------------"
 Write-Host "---------------------------"
 Write-Host "Restore and build started"
 cd $scriptsPath
-.\Setups\restore_and_build.ps1 -EManagerFolder $eManagerFolder
+.\Setups\restore_and_build.ps1 -EManagerFolder $eManagerFolder -InstallersFolder $installers_path
 cd $scriptsPath
 Write-Host "Restore and build done"
 Write-Host "---------------------------"
@@ -247,7 +248,7 @@ Write-Host "Port change default website to 8080 done"
 Write-Host "---------------------------------------------"
 Write-Host "Autostore http interface installation started"
 cd $scriptsPath
-.\Installations\installation_autostore_http_interface.ps1 -AutostoreHttpInterfaceExeLocation $autostore_http_interface_exe_location
+.\Installations\installation_autostore_http_interface.ps1 -AutostoreHttpInterfaceExeLocation $autostore_http_interface_exe_location -InstallersFolder $installers_path
 Write-Host "Autostore http interface installation done"
 Write-Host "---------------------------------------------"
 

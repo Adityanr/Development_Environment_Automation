@@ -2,6 +2,8 @@
 param(
     # eManager Folder
     [string]$EManagerFolder
+    ## Installer download location
+    [string]$InstallersFolder
 )
 
 ## NuGet add package
@@ -27,4 +29,4 @@ $variableValueToAdd = (Resolve-Path -Path "C:\Program Files\dotnet\sdk\5.*\Sdks"
 [System.Environment]::SetEnvironmentVariable($variableNameToAdd, $variableValueToAdd, [System.EnvironmentVariableTarget]::User)
 
 ## Setup nuget cli
-Invoke-WebRequest -Uri "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" -UseBasicParsing -OutFile "C:\Installers\nuget.exe"
+Invoke-WebRequest -Uri "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" -UseBasicParsing -OutFile "${InstallersFolder}\nuget.exe"

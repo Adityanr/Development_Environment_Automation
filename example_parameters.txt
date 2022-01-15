@@ -1,5 +1,6 @@
 Enter a few inputs before proceeding.
 -----------------------------------------
+Enter the path to download and store installers: C:\Installers
 Enter the AutoStore Emulator Exe Location: C:\Installations\AutoStore Interface Emulator_v1.1.9.exe
 Enter the AutoStore HTTP Interface Exe Location: C:\Installations\ASInterfaceHttp_v1.5.15.exe
 Enter your github API token: some_token
