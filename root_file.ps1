@@ -27,7 +27,8 @@ if ($UnsecureSAPassword -ne $UnsecureConfirmSAPassword) {
 $config_file_source = Read-Host "Enter the hibernate config file source folder path"
 $wmsAppPoolName = Read-Host "Enter the WMS app pool name"
 $wmsWebsiteName = Read-Host "Enter the WMS website name"
-$LogsOutputPath = Read-Host "Enter the output folder for powershell script logs"
+$LogsOutputPath = Read-Host "Enter the full path of output folder for application logs (Eg: D:\Logs)"
+$PowershellLogsOutputPath = Read-Host "Enter the full folder path for current powershell script logs (Eg: C:\ScriptLogs)"
 $date_and_time = Get-Date -Format MM-dd-yyyy-HH-mm
 $defaultWebSitePoolName = "DefaultAppPool"
 $defaultWebSiteName = "Default Web Site"
@@ -49,7 +50,8 @@ if ($decision -eq 0) {
     exit 0
 }
 
-Start-Transcript -path "${LogsOutputPath}\logs_${date_and_time}.txt" -append
+if (!(Test-Path -Path "${LogsOutputPath}")) { New-Item -ItemType "directory" -Path "${LogsOutputPath}" }
+Start-Transcript -path "${PowershellLogsOutputPath}\logs_${date_and_time}.txt" -append
 
 ## Validations
 $installed_visual_studio = $false

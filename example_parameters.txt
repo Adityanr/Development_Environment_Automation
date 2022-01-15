@@ -13,5 +13,6 @@ Enter the sysadmin SQL server password again to confirm: **********
 Enter the hibernate config file source folder path: C:\Users\eManagerTest1\Desktop\ConfigurationFiles
 Enter the WMS app pool name: Element Logic
 Enter the WMS website name: Element Logic
-Enter the output folder for powershell script logs: C:\temp
+Enter the full path of output folder for application logs (Eg: D:\Logs): D:\Logs
+Enter the full folder path for current powershell script logs (Eg: C:\ScriptLogs): C:\ScriptLogs
 -----------------------------------------
