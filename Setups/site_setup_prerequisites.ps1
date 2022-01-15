@@ -3,7 +3,7 @@ param(
     # Github bearer api token
     [string]$OAuthToken,
     # eManager Repo root folder
-    [string]$RootFolder
+    [string]$RootFolder,
     ## Installer download location
     [string]$InstallersFolder
 )

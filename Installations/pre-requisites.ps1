@@ -9,7 +9,7 @@ param(
 Set-ExecutionPolicy Bypass -Scope Process -Force
 
 ## Create Installers folder
-if (!(Test-Path -Path "${InstallersFolder}")) { New-Item -Path "C:\" -Name "Installers" -ItemType "directory" }
+if (!(Test-Path -Path "${InstallersFolder}")) { New-Item -ItemType "directory" -Path "${InstallersFolder}" }
 
 ## Install NuGet
 Install-PackageProvider -Name NuGet -Force

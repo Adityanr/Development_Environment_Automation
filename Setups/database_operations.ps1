@@ -14,7 +14,7 @@ $db_backup_path = $DatabaseBackupPath
 $database_name = $DatabaseName
 $SAUser = $SAUserName
 $SAUserPassword = $SAUserPassword
-$mssql_db_backup_path = "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup\${database_name}.bak"
+$mssql_db_backup_path = "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\Backup"
 $new_data_file_path = "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\${database_name}.mdf"
 $new_log_file_path = "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\${database_name}_log.ldf"
 
@@ -98,14 +98,14 @@ $result = Invoke-Sqlcmd -Query $query -ServerInstance "$domain" -Querytimeout 0
 ## Restore database from backup
 if ($result[0] -eq 0) {
 $query = @"
-RESTORE FILELISTONLY FROM DISK = '$mssql_db_backup_path'
+RESTORE FILELISTONLY FROM DISK = '${mssql_db_backup_path}\${database_name}.bak'
 "@
 $data_log_files_old = Invoke-Sqlcmd -Query $query -ServerInstance "$domain"
 $data_file_old = $data_log_files_old[0].LogicalName
 $log_file_old = $data_log_files_old[1].LogicalName
 
 $query = @"
-RESTORE DATABASE [$database_name] FROM DISK = '$mssql_db_backup_path' WITH MOVE '$data_file_old' TO '$new_data_file_path',
+RESTORE DATABASE [$database_name] FROM DISK = '${mssql_db_backup_path}\${database_name}.bak' WITH MOVE '$data_file_old' TO '$new_data_file_path',
 MOVE '$log_file_old' TO '$new_log_file_path', REPLACE
 "@
 Invoke-Sqlcmd -Query $query -ServerInstance "$domain" -Querytimeout 0

@@ -9,8 +9,8 @@ $user = $env:USERNAME
 
 ## Download and install SQL Server
 Invoke-WebRequest -Uri "https://go.microsoft.com/fwlink/?linkid=866662" -UseBasicParsing -OutFile "${InstallersFolder}\setup_sql_server.exe"
-Start-Process "${InstallersFolder}\setup_sql_server.exe" -ArgumentList @('/ACTION=Download', 'MEDIAPATH=${InstallersFolder}', '/QUIET') -NoNewWindow -Wait
-Start-Process "${InstallersFolder}\SQLServer2019-DEV-x64-ENU.exe" -ArgumentList @('/q', '/x:${InstallersFolder}\SQLSERVERDEV_2019') -NoNewWindow -Wait
+Start-Process "${InstallersFolder}\setup_sql_server.exe" -ArgumentList @('/ACTION=Download', "MEDIAPATH=${InstallersFolder}", '/QUIET') -NoNewWindow -Wait
+Start-Process "${InstallersFolder}\SQLServer2019-DEV-x64-ENU.exe" -ArgumentList @('/q', "/x:${InstallersFolder}\SQLSERVERDEV_2019") -NoNewWindow -Wait
 
 Start-Sleep -s 60
 while (!([System.IO.File]::Exists("${InstallersFolder}\SQLServer2019-DEV-x64-ENU.exe"))) { 

@@ -1,6 +1,6 @@
 param(
     # Autostore interface emulator location
-    [string]$AutostoreInterfaceEmulatorExeLocation
+    [string]$AutostoreInterfaceEmulatorExeLocation,
     # Autostore interface emulator exe copy destination
     [string]$InstallersFolder
 )

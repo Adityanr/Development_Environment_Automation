@@ -1,7 +1,7 @@
 ## Parameters
 param(
     # eManager Folder
-    [string]$EManagerFolder
+    [string]$EManagerFolder,
     ## Installer download location
     [string]$InstallersFolder
 )

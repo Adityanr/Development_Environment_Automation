@@ -1,6 +1,6 @@
 param(
     # Autostore http interface location
-    [string]$AutostoreHttpInterfaceExeLocation
+    [string]$AutostoreHttpInterfaceExeLocation,
     ## Installer download location
     [string]$InstallersFolder
 )
