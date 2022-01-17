@@ -5,7 +5,6 @@ $ErrorActionPreference = "Continue"
 ## Parameters
 Write-Host "Enter a few inputs before proceeding."
 Write-Host "-----------------------------------------"
-$installers_path = Read-Host "Enter the path to download and store installers"
 $autostore_interface_emulator_exe_location = Read-Host "Enter the AutoStore Emulator Exe Full path (Eg: C:\Autostore\Autostore.exe)"
 $autostore_http_interface_exe_location = Read-Host "Enter the AutoStore HTTP Interface Exe Full path (Eg: C:\Autostore\Autostore.exe)"
 $github_api_token = Read-Host "Enter your github API token"
@@ -16,6 +15,7 @@ $sauser = Read-Host "Enter the sysadmin SQL server username"
 $sapassword = Read-Host "Enter the sysadmin SQL server password" -AsSecureString
 $confirmSAPassword = Read-Host "Enter the sysadmin SQL server password again to confirm" -AsSecureString
 
+# password match check
 $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($sapassword)
 $UnsecureSAPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
 $BSTRConfirm = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($confirmSAPassword)
@@ -28,13 +28,18 @@ $config_file_source = Read-Host "Enter the hibernate config file source folder p
 $wmsAppPoolName = Read-Host "Enter the WMS app pool name"
 $wmsWebsiteName = Read-Host "Enter the WMS website name"
 $LogsOutputPath = Read-Host "Enter the full path of output folder for application logs (Eg: D:\Logs)"
-$PowershellLogsOutputPath = Read-Host "Enter the full folder path for current powershell script logs (Eg: C:\ScriptLogs)"
+
+# pre-defined
+$userprofile = $env:USERPROFILE
+$tempFolder = $env:TEMP
+$installers_path = "${userprofile}\Downloads"
+$PowershellLogsOutputPath = "${tempFolder}\ScriptLogs"
 $date_and_time = Get-Date -Format MM-dd-yyyy-HH-mm
-$defaultWebSitePoolName = "DefaultAppPool"
 $defaultWebSiteName = "Default Web Site"
 $scriptsPath = (Get-Location).Path
 Write-Host "-----------------------------------------"
 
+## Confirmation to proceed section
 $title    = 'Confirm'
 $question = 'Are you sure you want to proceed?'
 
@@ -66,7 +71,7 @@ $SoftList = "Microsoft Visual Studio Installer","Git","Sourcetree","IIS 10.0 Exp
 foreach($i in $SoftList)
 {
     $x = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | 
-    select DisplayName, Publisher, InstallDate | Where-Object {$_.DisplayName -like $("$i*")} 
+    Select-Object DisplayName, Publisher, InstallDate | Where-Object {$_.DisplayName -like $("$i*")} 
     switch($x.DisplayName) {
         "Microsoft Visual Studio Installer" {
             $installed_visual_studio = $true
@@ -171,7 +176,7 @@ Write-Host "---------------------------------------------"
 }
 
 ## Call SQL server and SSMS installation
-if (!$installed_ssms -or !$installed_ssms) {
+if (!$installed_sql_server -or !$installed_ssms) {
 Write-Host "---------------------------------------------"
 Write-Host "SQL Server and SSMS installation started"
     .\Installations\installation_sql.ps1 -InstallersFolder $installers_path
@@ -225,16 +230,16 @@ Write-Host "---------------------------"
 ## Restore and build
 Write-Host "---------------------------"
 Write-Host "Restore and build started"
-cd $scriptsPath
+Set-Location $scriptsPath
 .\Setups\restore_and_build.ps1 -EManagerFolder $eManagerFolder -InstallersFolder $installers_path
-cd $scriptsPath
+Set-Location $scriptsPath
 Write-Host "Restore and build done"
 Write-Host "---------------------------"
 
 ## Config file copy
 Write-Host "--------------------------------"
 Write-Host "Configuration files copy started"
-cd $scriptsPath
+Set-Location $scriptsPath
 .\Setups\config_file_copy.ps1 -ConfigFileSource "$config_file_source\*" -EManagerRepoRoot $eManager_root_folder
 Write-Host "Configuration files copy done"
 Write-Host "--------------------------------"
@@ -242,14 +247,14 @@ Write-Host "--------------------------------"
 ## Site port change
 Write-Host "---------------------------------------------"
 Write-Host "Port change default website to 8080 started"
-cd $scriptsPath
+Set-Location $scriptsPath
 .\Setups\site_port_change.ps1 -WebsiteName $defaultWebSiteName -PortBindingInfo "*:80:" -NewPortNumber 8080
 Write-Host "Port change default website to 8080 done"
 
 ## Call autostore http interface installer
 Write-Host "---------------------------------------------"
 Write-Host "Autostore http interface installation started"
-cd $scriptsPath
+Set-Location $scriptsPath
 .\Installations\installation_autostore_http_interface.ps1 -AutostoreHttpInterfaceExeLocation $autostore_http_interface_exe_location -InstallersFolder $installers_path
 Write-Host "Autostore http interface installation done"
 Write-Host "---------------------------------------------"
@@ -257,7 +262,7 @@ Write-Host "---------------------------------------------"
 ## Site setup WMS
 Write-Host "--------------------------------------"
 Write-Host "WMS web Site setups on port 80 started"
-cd $scriptsPath
+Set-Location $scriptsPath
 $wmsWebsiteFolder = "${eManager_root_folder}\eManager\WmsWeb"
 .\Setups\site_setup_wms.ps1 -WebsiteFolder $wmsWebsiteFolder -AppPoolName $wmsAppPoolName -WebsiteName $wmsWebsiteName -PortNumber 80
 Write-Host "WMS web Site setups on port 80 done"

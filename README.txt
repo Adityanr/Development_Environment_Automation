@@ -19,4 +19,4 @@ Method 2:
 3) type root ps1 script and invoke it
 4) If the script doesnt get invoked and error states script is not digitally signed, run this command:
 
-Set-ExecutionPolicy Bypass -Scope Process -Force
+Set-ExecutionPolicy Bypass -Scope CurrentUser -Force
