@@ -18,7 +18,6 @@ $mssql_db_backup_path = "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERV
 $new_data_file_path = "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\${database_name}.mdf"
 $new_log_file_path = "C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\${database_name}_log.ldf"
 
-
 ## Alter SQL Authentication mode
 Install-PackageProvider -Name NuGet -Force
 Install-module -name SqlServer -Force -ErrorAction SilentlyContinue -Scope CurrentUser
@@ -31,8 +30,7 @@ if (Get-ChildItem $sqlpsreg -ErrorAction "SilentlyContinue")
     throw "SQL Server Provider for Windows PowerShell is not installed."  
 }  
 else  
-{  
-    $item = Get-ItemProperty $sqlpsreg  
+{
     $sqlpsPath = "C:\Program Files (x86)\Microsoft SQL Server\150\Tools\PowerShell\Modules\SQLPS"
 }  
   
@@ -65,7 +63,7 @@ foreach ($asm in $assemblylist)
 }  
   
 Push-Location  
-cd $sqlpsPath  
+Set-Location $sqlpsPath  
 update-FormatData -prependpath SQLProvider.Format.ps1xml
 Pop-Location
 

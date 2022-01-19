@@ -4,6 +4,7 @@ param(
 )
 
 ## Download Visual Studio Enterprise 2019
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; 
 Invoke-WebRequest -Uri "https://aka.ms/vs/16/release/vs_BuildTools.exe" -OutFile "${InstallersFolder}\vs_BuildTools.exe"
 
 ## Install Visual Studio Build tools 2019 (Basic)

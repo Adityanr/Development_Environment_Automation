@@ -5,12 +5,9 @@ $ErrorActionPreference = "Continue"
 ## Parameters
 Write-Host "Enter a few inputs before proceeding."
 Write-Host "-----------------------------------------"
-$autostore_interface_emulator_exe_location = Read-Host "Enter the AutoStore Emulator Exe Full path (Eg: C:\Autostore\Autostore.exe)"
-$autostore_http_interface_exe_location = Read-Host "Enter the AutoStore HTTP Interface Exe Full path (Eg: C:\Autostore\Autostore.exe)"
 $github_api_token = Read-Host "Enter your github API token"
 $eManager_root_folder = Read-Host "Enter the root folder where eManager is to be cloned"
 $database_name = Read-Host "Enter the database name"
-$database_backup_path = Read-Host "Enter the database backup full (Eg: C:\Backup\eet.bak)"
 $sauser = Read-Host "Enter the sysadmin SQL server username"
 $sapassword = Read-Host "Enter the sysadmin SQL server password" -AsSecureString
 $confirmSAPassword = Read-Host "Enter the sysadmin SQL server password again to confirm" -AsSecureString
@@ -24,15 +21,18 @@ if ($UnsecureSAPassword -ne $UnsecureConfirmSAPassword) {
     throw "Passwords don't match!"
 }
 
-$config_file_source = Read-Host "Enter the hibernate config file source folder path"
 $wmsAppPoolName = Read-Host "Enter the WMS app pool name"
 $wmsWebsiteName = Read-Host "Enter the WMS website name"
 $LogsOutputPath = Read-Host "Enter the full path of output folder for application logs (Eg: D:\Logs)"
 
 # pre-defined
 $userprofile = $env:USERPROFILE
+$database_backup_path = "C:\Backup\eet.bak"
+$autostore_interface_emulator_exe_location = "${userprofile}\Desktop\Emulator\AutoStore Interface Emulator_v1.1.9.exe"
+$autostore_http_interface_exe_location = "${userprofile}\Desktop\Emulator\ASInterfaceHttp_v1.5.15.exe"
 $tempFolder = $env:TEMP
 $installers_path = "${userprofile}\Downloads"
+$config_file_source = "${userprofile}\Desktop\Config"
 $PowershellLogsOutputPath = "${tempFolder}\ScriptLogs"
 $date_and_time = Get-Date -Format MM-dd-yyyy-HH-mm
 $defaultWebSiteName = "Default Web Site"
@@ -59,6 +59,18 @@ if (!(Test-Path -Path "${LogsOutputPath}")) { New-Item -ItemType "directory" -Pa
 Start-Transcript -path "${PowershellLogsOutputPath}\logs_${date_and_time}.txt" -append
 
 ## Validations
+# file path validation
+if (!(Test-Path -Path "${autostore_interface_emulator_exe_location}")) {
+    throw "AutoStore Emulator Exe path does not exist."
+}
+if (!(Test-Path -Path "${autostore_http_interface_exe_location}")) {
+    throw "AutoStore HTTP Interface Exe path does not exist."
+}
+if (!(Test-Path -Path "${database_backup_path}")) {
+    throw "Database backup path does not exist."
+}
+
+# installers validation
 $installed_visual_studio = $false
 $installed_visual_studio_build_tools = $false
 $installed_git = $false
@@ -240,7 +252,7 @@ Write-Host "---------------------------"
 Write-Host "--------------------------------"
 Write-Host "Configuration files copy started"
 Set-Location $scriptsPath
-.\Setups\config_file_copy.ps1 -ConfigFileSource "$config_file_source\*" -EManagerRepoRoot $eManager_root_folder
+.\Setups\config_file_copy.ps1 -ConfigFileSource "${config_file_source}\*" -EManagerRepoRoot $eManager_root_folder -SAUserPassword $UnsecureSAPassword
 Write-Host "Configuration files copy done"
 Write-Host "--------------------------------"
 

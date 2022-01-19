@@ -4,6 +4,7 @@ param(
 )
 
 ## PS App Deploy tool kit download
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; 
 Invoke-WebRequest -Uri "https://github.com/PSAppDeployToolkit/PSAppDeployToolkit/releases/download/3.8.4/PSAppDeployToolkit_v3.8.4.zip" -UseBasicParsing -OutFile "${InstallersFolder}\PSAppDeployToolkit.zip"
 Unblock-File -Path "${InstallersFolder}\PSAppDeployToolkit.zip"
 Expand-Archive -Path "${InstallersFolder}\PSAppDeployToolkit.zip" -DestinationPath "${InstallersFolder}\PADT\" -Force
@@ -11,6 +12,7 @@ Copy-Item -Path "${InstallersFolder}\PADT\Toolkit\AppDeployToolkit" -Destination
 Copy-Item -Path "${InstallersFolder}\PADT\Toolkit\Files" -Destination "${InstallersFolder}\SourceTree\Files" -Force
 
 ## Source tree msi download
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; 
 Invoke-WebRequest -Uri "https://product-downloads.atlassian.com/software/sourcetree/windows/ga/SourcetreeEnterpriseSetup_3.4.7.msi" -UseBasicParsing -OutFile "${InstallersFolder}\SourcetreeEnterpriseSetup.msi"
 Copy-Item "${InstallersFolder}\SourcetreeEnterpriseSetup.msi" -Destination "${InstallersFolder}\SourceTree\Files\" -Force
 

@@ -7,7 +7,7 @@ param(
 )
 
 ## Restore NuGet packages
-cd $EManagerFolder
+Set-Location $EManagerFolder
 &"${InstallersFolder}\nuget.exe" restore .\AutoStoreManagementSystem.sln -Verbosity quiet
 
 ## Build project
