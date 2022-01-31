@@ -28,8 +28,8 @@ $LogsOutputPath = Read-Host "Enter the full path of output folder for applicatio
 # pre-defined
 $userprofile = $env:USERPROFILE
 $database_backup_path = "C:\Backup\eet.bak"
-$autostore_interface_emulator_exe_location = "${userprofile}\Desktop\Emulator\AutoStore Interface Emulator_v1.1.9.exe"
-$autostore_http_interface_exe_location = "${userprofile}\Desktop\Emulator\ASInterfaceHttp_v1.5.15.exe"
+$autostore_interface_emulator_exe_location = "C:\Installers\AutoStore Interface Emulator_v1.1.9.exe"
+$autostore_http_interface_exe_location = "C:\Installers\ASInterfaceHttp_v1.5.15.exe"
 $tempFolder = $env:TEMP
 $installers_path = "${userprofile}\Downloads"
 $config_file_source = "${userprofile}\Desktop\Config"
@@ -37,6 +37,14 @@ $PowershellLogsOutputPath = "${tempFolder}\ScriptLogs"
 $date_and_time = Get-Date -Format MM-dd-yyyy-HH-mm
 $defaultWebSiteName = "Default Web Site"
 $scriptsPath = (Get-Location).Path
+Write-Host "-----------------------------------------"
+Write-Host "Pre-defined parameters:"
+Write-Host "-----------------------------------------"
+Write-Host "Database backup path: $database_backup_path"
+Write-Host "AutoStore Emulator exe path: $autostore_interface_emulator_exe_location"
+Write-Host "AutoStore HTTP interface exe path: $autostore_http_interface_exe_location"
+Write-Host "Installers common folder: $installers_path"
+Write-Host "Config files source folder: $config_file_source"
 Write-Host "-----------------------------------------"
 
 ## Confirmation to proceed section
@@ -69,6 +77,9 @@ if (!(Test-Path -Path "${autostore_http_interface_exe_location}")) {
 if (!(Test-Path -Path "${database_backup_path}")) {
     throw "Database backup path does not exist."
 }
+if (!(Test-Path -Path "${config_file_source}")) {
+    throw "Config file source folder does not exist."
+}
 
 # installers validation
 $installed_visual_studio = $false
@@ -79,7 +90,7 @@ $installed_iis = $false
 $installed_sql_server = $false
 $installed_ssms = $false
 
-$SoftList = "Microsoft Visual Studio Installer","Git","Sourcetree","IIS 10.0 Express","Microsoft SQL Server 2019 (64-bit)","SQL Server Management Studio"
+$SoftList = "Microsoft Visual Studio Installer","Git","Sourcetree","IIS 10.0 Express","Microsoft SQL Server*","SQL Server Management Studio"
 foreach($i in $SoftList)
 {
     $x = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | 
@@ -101,24 +112,30 @@ foreach($i in $SoftList)
         "IIS 10.0 Express" {
             $installed_iis = $true
             break;
-        } 
-        "Microsoft SQL Server 2019 (64-bit)" {
-            $installed_sql_server = $true
-            break;
-        } 
+        }
         "SQL Server Management Studio" {
             $installed_ssms = $true
             break;
         } 
         
     }
+
+    if($x.DisplayName -like "Microsoft SQL Server*") {
+        $installed_sql_server = $true
+    }
 } 
 
-if (!(Test-Path -Path "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSbuild.exe")) {
+$ErrorActionPreference="SilentlyContinue"
+$vsEnterpriseMSBuildPath = (resolve-path "C:\Program Files\Microsoft Visual Studio\*\Enterprise\MSBuild\Current\Bin\MSbuild.exe").Path
+$ErrorActionPreference="Continue"
+if (!($vsEnterpriseMSBuildPath)) {
     $installed_visual_studio = $false
 }
 
-if (!(Test-Path -Path "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\MSbuild.exe")) {
+$ErrorActionPreference="SilentlyContinue"
+$vsBuildToolsMSBuildPath = (resolve-path "C:\Program Files (x86)\Microsoft Visual Studio\*\BuildTools\MSBuild\Current\Bin\MSbuild.exe").Path
+$ErrorActionPreference="Continue"
+if (!($vsBuildToolsMSBuildPath)) {
     $installed_visual_studio_build_tools = $false
 }
 

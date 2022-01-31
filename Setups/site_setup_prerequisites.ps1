@@ -38,7 +38,8 @@ Import-Module webadministration
 ## Update path variable
 $variableNameToAdd = 'PATH'
 $path_env_value = $env:PATH
-$variableValueToAdd = "${path_env_value};C:\Program Files\Microsoft Visual Studio\2022\Enterprise\dotnet\runtime"
+$dotnetRunTimeFolder = (resolve-path "C:\Program Files\Microsoft Visual Studio\*\Enterprise\dotnet\runtime").Path
+$variableValueToAdd = "${path_env_value};${dotnetRunTimeFolder}"
 [System.Environment]::SetEnvironmentVariable($variableNameToAdd, $variableValueToAdd, [System.EnvironmentVariableTarget]::Machine)
 [System.Environment]::SetEnvironmentVariable($variableNameToAdd, $variableValueToAdd, [System.EnvironmentVariableTarget]::Process)
 [System.Environment]::SetEnvironmentVariable($variableNameToAdd, $variableValueToAdd, [System.EnvironmentVariableTarget]::User)
